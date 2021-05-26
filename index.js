@@ -16,5 +16,11 @@ bot.on("message", (msg) => {
     `
     );
   }
+  if (text == "/start") {
+    bot.sendMessage(
+      chatId,
+      `Тебя зовут ${msg.from.first_name} ${msg.from.last_name}`
+    );
+  }
   bot.sendMessage(chatId, `Ты написал мне ${text}`);
 });
