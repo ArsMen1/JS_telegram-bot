@@ -1,6 +1,6 @@
-const TelegramApi = require("node-telegram-bot-api");
-const { gameOptions, againOptions } = require("./options.js");
-const { token } = require("./token.js");
+const TelegramApi = require("node-telegram-bot-api"); // подключаем библиотеку
+const { gameOptions, againOptions } = require("./options.js"); // функционал игры
+const { token } = require("./token.js"); // прячем токен
 
 const bot = new TelegramApi(token, { polling: true });
 
@@ -25,15 +25,15 @@ const start = () => {
     if (text == "/start") {
       await bot.sendSticker(
         chatId,
-        "https://tlgrm.ru/_/stickers/5fb/e86/5fbe8646-6371-463c-ba7d-bbc08ab0b860/3.webp"
+        "https://tlgrm.ru/_/stickers/5fb/e86/5fbe8646-6371-463c-ba7d-bbc08ab0b860/3.webp" // стикер привтствия
       );
       return bot.sendMessage(
         chatId,
         `
-Добро пожаловать в телеграмм бота proffi01
+${msg.from.first_name} ${msg.from.last_name}, Добро пожаловать в телеграмм бота @proffi01_bot.
 Я личный помощник пользователя @proffi01
 
-Welcome to telegram bot proffi01
+${msg.from.first_name} ${msg.from.last_name}, Welcome to telegram bot @proffi01_bot.
 I am the user's personal assistant @proffi01
 `
       );
@@ -42,8 +42,8 @@ I am the user's personal assistant @proffi01
       return bot.sendMessage(
         chatId,
         `
-Тебя зовут ${msg.from.first_name} ${msg.from.last_name}
-А я личный помощник пользователя @proffi01
+Ты можешь попытать счастье в игре где нужно отгадать какое я загадаю число от 0 до 9.
+Или ты можешь заказать у меня телеграмм бота, а я передам твою просьбу своему создателю.→ @proffi01
 `
       );
     }
@@ -55,13 +55,14 @@ I am the user's personal assistant @proffi01
       `Я тебя не понимаю попробуй ввести сущесвующую команду`
     );
   });
+
   bot.on("callback_query", (msg) => {
     const data = msg.data;
     const chatId = msg.message.chat.id;
-    if (data === "/again") {
+    if (data == "/again") {
       return startGame(chatId);
     }
-    if (data === chats[chatId]) {
+    if (data == chats[chatId]) {
       return bot.sendMessage(chatId, `Верно!`, againOptions);
     } else {
       return bot.sendMessage(
