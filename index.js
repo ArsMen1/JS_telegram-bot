@@ -4,10 +4,13 @@ const token = "1826953714:AAFSy6SkCgsc8LV2DuLxUXA7wnbzpsh5cxY";
 
 const bot = new TelegramApi(token, { polling: true });
 
+const chats = {};
+
 const start = () => {
   bot.setMyCommands([
     { command: "/start", description: "Начальное приветствие" },
     { command: "/info", description: "Информация о пользователе" },
+    { command: "/game", description: "Игра угадай число" },
   ]);
 
   bot.on("message", async (msg) => {
@@ -21,19 +24,28 @@ const start = () => {
       return bot.sendMessage(
         chatId,
         `
-      Добро пожаловать в телеграмм бота proffi01
-      Welcome to telegram bot proffi01
-      `
+Добро пожаловать в телеграмм бота proffi01
+Я личный помощник пользователя @proffi01
+
+Welcome to telegram bot proffi01
+I am the user's personal assistant @proffi01
+`
       );
     }
     if (text == "/info") {
       return bot.sendMessage(
         chatId,
-        `Тебя зовут ${msg.from.first_name} ${msg.from.last_name}`
+        `
+Тебя зовут ${msg.from.first_name} ${msg.from.last_name}
+А я личный помощник пользователя @proffi01
+`
       );
     }
     if (text == "/game") {
       await bot.sendMessage(chatId, `Угадай какое число от 0 до 9 я загадал)`);
+      const randomNumber = Math.floor(Math.random() * 10);
+      chats[chatId] = randomNumber;
+      return bot.sendMessage(chatId, `Отгадывай)`);
     }
     return bot.sendMessage(
       chatId,
